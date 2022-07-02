@@ -6,7 +6,7 @@ import re
 r = sr.Recognizer()
 
 Microphones = sr.Microphone.list_microphone_names()
-my_mic = sr.Microphone()
+my_mic = sr.Microphone(device_index=1)
 
 # with sr.AudioFile(filename) as source:
 #     # listen for the data (load audio to memory)
@@ -25,14 +25,19 @@ with my_mic as source:
 
 textObject = r.recognize_google(audio, language = 'en-IN', show_all = True )
 extract = json.dumps(textObject)
-text = json.loads(extract,object_hook=lambda d: SimpleNamespace(**d)).alternative[0].transcript
-print(text)
+if (len(extract)>0):
+    print(extract)
+    text = json.loads(extract,object_hook=lambda d: SimpleNamespace(**d)).alternative[0].transcript
+    print(text)
+else:
+    print(extract, 'empty array')
+
 
 # now to text recognition
-pattern = "[a-zA-Z0-9]+ [0-9]+:[0-9]+"
-secondPattern = "[a-zA-Z0-9]+ [0-9]+:[0-9]+\(-)[0-9]"
+# pattern = "[a-zA-Z0-9]+ [0-9]+:[0-9]+"
+# secondPattern = "[a-zA-Z0-9]+ [0-9]+:[0-9]+\(-)[0-9]"
 
-if (re.search(pattern, text)):
-    print('valid input')
-else:
-    print('invalid input or wrong pattern')
+# if (re.search(pattern, text)):
+#     print('valid input')
+# else:
+#     print('invalid input or wrong pattern')
