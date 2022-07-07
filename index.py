@@ -25,19 +25,15 @@ with my_mic as source:
 
 textObject = r.recognize_google(audio, language = 'en-IN', show_all = True )
 extract = json.dumps(textObject)
-if (len(extract)>0):
-    print(extract)
-    text = json.loads(extract,object_hook=lambda d: SimpleNamespace(**d)).alternative[0].transcript
-    print(text)
-else:
-    print(extract, 'empty array')
+print(extract)
+text = json.loads(extract,object_hook=lambda d: SimpleNamespace(**d)).alternative[0].transcript
 
 
 # now to text recognition
-# pattern = "[a-zA-Z0-9]+ [0-9]+:[0-9]+"
-# secondPattern = "[a-zA-Z0-9]+ [0-9]+:[0-9]+\(-)[0-9]"
+pattern = "[a-zA-Z0-9]+ [0-9]+:[0-9]+"
+secondPattern = "[a-zA-Z0-9]+ [0-9]+:[0-9]+\(-)[0-9]"
 
-# if (re.search(pattern, text)):
-#     print('valid input')
-# else:
-#     print('invalid input or wrong pattern')
+if (re.search(pattern, text)):
+    print('valid input')
+else:
+    print('invalid input or wrong pattern')
